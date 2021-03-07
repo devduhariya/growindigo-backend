@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="./mvp.css" />
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyA-D1LibF6PFcGHsBe4Efft95FKMjvJ4dU",
+            authDomain: "growindigo-backend.firebaseapp.com",
+            projectId: "growindigo-backend",
+            storageBucket: "growindigo-backend.appspot.com",
+            messagingSenderId: "549563924157",
+            appId: "1:549563924157:web:dc16a767891d2aef6c81d4"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        // firebase.auth().setPersistence(firebase.auth.Auth.Persistence.None);
+        firebase.auth().useDeviceLanguage();
+    </script>
+</head>
+
+<body>
+    <h1>Firebase Authentication</h1>
+    <div id="recaptcha-container"></div>
+    <div id="main">
+
+        <input type="text" id="phone" name="phone" placeholder="Enter phone Number" />
+        <button id="submit" onclick="onSignInSubmit()"> Submit</button>
+    </div>
+    <div id="verify">
+    <label>
+        Enter OTP:
+    </label>
+    <input type="number" id="code" placeholder="Enter otp here" />
+    <button onclick="verifyCode()">Verify</button>
+</div>
+
+
+    <script>
+        // window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+            'size': 'invisible',
+            'callback': (response) => {
+                // onSignInSubmit();
+            }
+        });
+
+        function onSignInSubmit() {
+            console.log('inside onSignInSubmit');
+            const phoneNumber = "+91" + document.getElementById('phone').value;
+            console.log('phoneNumber: ', phoneNumber);
+            const appVerifier = window.recaptchaVerifier;
+            console.log('appVerifier: ', appVerifier);
+            firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+                .then((confirmationResult) => {
+                    console.log('confirmationResult: ', confirmationResult);
+                    window.confirmationResult = confirmationResult;
+                    
+                }).catch((error) => {
+
+                    console.log('Error: ', error)
+                });
+        }
+        function verifyCode() {
+            function getCodeFromUserInput() {
+                return document.getElementById('code').value;
+            }
+
+            const code = getCodeFromUserInput();
+            window.confirmationResult.confirm(code).then((result) => {
+                const user = result.user;
+                console.log('user: ', user);
+            }).catch((error) => {
+                alert("User couldn't sign in (bad verification code?)");
+            });
+        }
+    </script>
+</body>
+
+</html>
