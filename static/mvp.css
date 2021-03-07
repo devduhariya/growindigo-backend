@@ -1,8 +1,75 @@
-#main{
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+#main {
     display: block;
     margin-left: auto;
 }
-#verify{
-    /* display:none; */
-   
+
+#verify_div {
+    display: none;
+}
+
+.container-content {
+    margin: 2rem 0;
+}
+
+.container-content .input-div {
+    width: 60%;
+    display: inline-block;
+}
+
+.input-div input {
+    padding: 6px;
+    height: 40px;
+    display: block;
+    width: 100%;
+}
+
+.container-content label {
+    display: block;
+    font-size: 18px;
+
+}
+
+.button-div {
+    display: inline-block;
+}
+
+.container-content button {
+    background: rgb(33 150 243 / 90%);
+    color: #fff;
+    padding: 6px 22px;
+    border-radius: 4px;
+    height: 40px;
+    outline: none;
+    cursor: pointer;
+    border: 1px solid rgb(33 150 243 / 90%);
+}
+
+.container-content button:hover {
+    background: #2196f3;
+    border-color: #2196f3;
+}
+#authenticated{
+    display: none;
+}
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
